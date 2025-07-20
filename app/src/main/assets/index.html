@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=95pc, initial-scale=1.0">
+    <title>Math Challenge Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, 'Times New Roman', Verdana, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .game-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4169e1;
+            margin-bottom: 10px;
+        }
+
+        .score-area {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .score-box {
+            background-color: #f1f7ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .score-box span {
+            font-weight: normal;
+            margin-left: 5px;
+        }
+
+        .timer {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #4169e1;
+        }
+
+        .problem-area {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        #problem {
+            margin-bottom: 20px;
+        }
+
+        #answer {
+            font-size: 20px;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            width: 150px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        #answer:focus {
+            outline: none;
+            border-color: #4169e1;
+        }
+
+        .btn {
+            background-color: #4169e1;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: #3a5fcf;
+        }
+
+        .btn-success {
+            background-color: #2ecc71;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .start-screen, .results-screen {
+            text-align: center;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .correct {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+
+        .wrong {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+        }
+
+        .difficulty-selection {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .difficulty-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .difficulty-btn:hover, .difficulty-btn.selected {
+            border-color: #4169e1;
+        }
+
+        .game-area, .results-screen {
+            display: none;
+        }
+
+        .results-content {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #4169e1;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .feedback {
+            height: 24px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f7ff;
+        }
+
+        .streak-bonus {
+            position: absolute;
+            font-size: 18px;
+            font-weight: bold;
+            color: #f39c12;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        .float-up {
+            animation: float-up 1.5s forwards;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <!-- Start Screen -->
+    <div class="start-screen" id="startScreen">
+        <h1>Math Challenge</h1>
+        <p>Test your math skills with a fast-paced challenge! Choose your difficulty level and solve as many problems as you can within the time limit.</p>
+
+        <div class="difficulty-selection">
+            <div class="difficulty-btn selected" data-difficulty="easy">
+                <h3>Easy</h3>
+                <p>Addition & Subtraction<br>Numbers 1-20</p>
+            </div>
+            <div class="difficulty-btn" data-difficulty="medium">
+                <h3>Medium</h3>
+                <p>All Operations<br>Numbers 1-50</p>
+            </div>
+            <div class="difficulty-btn" data-difficulty="hard">
+                <h3>Hard</h3>
+                <p>All Operations<br>Numbers 1-100</p>
+            </div>
+        </div>
+
+        <button class="btn" id="startBtn">Start Game</button>
+    </div>
+
+    <!-- Game Area -->
+    <div class="game-area" id="gameArea">
+        <h1>Math Challenge</h1>
+        <div class="score-area">
+            <div class="score-box">Score: <span id="score">0</span></div>
+            <div class="score-box">Streak: <span id="streak">0</span></div>
+        </div>
+
+        <div class="timer" id="timer">60</div>
+        <div class="progress-bar"><div class="progress" id="progress"></div></div>
+
+        <div class="problem-area">
+            <div id="problem">8 + 5 = ?</div>
+            <label for="answer"></label><input type="number" id="answer" autofocus placeholder="Enter answer">
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <button class="btn" id="submitBtn">Submit</button>
+        <button class="btn btn-danger" id="endBtn">End Game</button>
+    </div>
+
+    <!-- Results Screen -->
+    <div class="results-screen" id="resultsScreen">
+        <h1>Game Over!</h1>
+        <div class="results-content">
+            <h2>Your Results</h2>
+            <div class="score-area">
+                <div class="score-box">Final Score: <span id="finalScore">0</span></div>
+                <div class="score-box">Problems Solved: <span id="problemsSolved">0</span></div>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Stat</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Correct Answers</td>
+                    <td id="correctAnswers">0</td>
+                </tr>
+                <tr>
+                    <td>Wrong Answers</td>
+                    <td id="wrongAnswers">0</td>
+                </tr>
+                <tr>
+                    <td>Accuracy</td>
+                    <td id="accuracy">0%</td>
+                </tr>
+                <tr>
+                    <td>Average Time Per Problem</td>
+                    <td id="avgTime">0s</td>
+                </tr>
+                <tr>
+                    <td>Best Streak</td>
+                    <td id="bestStreak">0</td>
+                </tr>
+            </table>
+        </div>
+
+        <button class="btn" id="playAgainBtn">Play Again</button>
+    </div>
+</div>
+
+<script>
+    // Game variables
+    let score = 0;
+    let streak = 0;
+    let bestStreak = 0;
+    let timeLeft = 60;
+    let timer;
+    let currentProblem = {};
+    let difficulty = "easy";
+    let problems = [];
+    let correctAnswers = 0;
+    let wrongAnswers = 0;
+    let startTime;
+    let totalTime = 0;
+    let problemsSolved = 0;
+
+    // DOM Elements
+    const startScreen = document.getElementById('startScreen');
+    const gameArea = document.getElementById('gameArea');
+    const resultsScreen = document.getElementById('resultsScreen');
+    const problemElement = document.getElementById('problem');
+    const answerInput = document.getElementById('answer');
+    const submitBtn = document.getElementById('submitBtn');
+    const timerElement = document.getElementById('timer');
+    const scoreElement = document.getElementById('score');
+    const streakElement = document.getElementById('streak');
+    const feedbackElement = document.getElementById('feedback');
+    const startBtn = document.getElementById('startBtn');
+    const endBtn = document.getElementById('endBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+    const progressBar = document.getElementById('progress');
+
+    // Results elements
+    const finalScoreElement = document.getElementById('finalScore');
+    const problemsSolvedElement = document.getElementById('problemsSolved');
+    const correctAnswersElement = document.getElementById('correctAnswers');
+    const wrongAnswersElement = document.getElementById('wrongAnswers');
+    const accuracyElement = document.getElementById('accuracy');
+    const avgTimeElement = document.getElementById('avgTime');
+    const bestStreakElement = document.getElementById('bestStreak');
+
+    // Initialize game
+    function init() {
+        // Setup event listeners
+        submitBtn.addEventListener('click', checkAnswer);
+        answerInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+        startBtn.addEventListener('click', startGame);
+        endBtn.addEventListener('click', endGame);
+        playAgainBtn.addEventListener('click', resetGame);
+
+        // Setup difficulty selection
+        difficultyBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                difficultyBtns.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                difficulty = this.dataset.difficulty;
+            });
+        });
+    }
+
+    // Start game
+    function startGame() {
+        startScreen.style.display = 'none';
+        gameArea.style.display = 'block';
+
+        // Reset game variables
+        score = 0;
+        streak = 0;
+        timeLeft = 60;
+        problems = [];
+        correctAnswers = 0;
+        wrongAnswers = 0;
+        totalTime = 0;
+        problemsSolved = 0;
+
+        // Update UI
+        scoreElement.textContent = score;
+        streakElement.textContent = streak;
+        timerElement.textContent = timeLeft;
+
+        // Start timer
+        startTimer();
+
+        // Generate first problem
+        generateProblem();
+
+        // Focus on answer input
+        answerInput.focus();
+
+        // Start tracking time
+        startTime = new Date();
+    }
+
+    // End game
+    function endGame() {
+        clearInterval(timer);
+        gameArea.style.display = 'none';
+        resultsScreen.style.display = 'block';
+
+        // Update results
+        finalScoreElement.textContent = score;
+        problemsSolvedElement.textContent = problemsSolved;
+        correctAnswersElement.textContent = correctAnswers;
+        wrongAnswersElement.textContent = wrongAnswers;
+
+        const accuracy = problemsSolved > 0 ? Math.round((correctAnswers / problemsSolved) * 100) : 0;
+        accuracyElement.textContent = accuracy + '%';
+
+        const avgTimePerProblem = problemsSolved > 0 ? (totalTime / problemsSolved).toFixed(1) : 0;
+        avgTimeElement.textContent = avgTimePerProblem + 's';
+
+        bestStreakElement.textContent = bestStreak;
+    }
+
+    // Reset game to start screen
+    function resetGame() {
+        resultsScreen.style.display = 'none';
+        startScreen.style.display = 'block';
+    }
+
+    // Start timer
+    function startTimer() {
+        timer = setInterval(function() {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+
+            // Update progress bar
+            const progress = (timeLeft / 60) * 100;
+            progressBar.style.width = progress + '%';
+
+            if (timeLeft <= 10) {
+                timerElement.style.color = '#e74c3c';
+            }
+
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }, 1000);
+    }
+
+    // Generate a new math problem
+    function generateProblem() {
+        let num1, num2, operation, answer, problem;
+
+        // Set ranges based on difficulty
+        let maxNum, operations;
+
+        switch(difficulty) {
+            case "easy":
+                maxNum = 20;
+                operations = ['+', '-'];
+                break;
+            case "medium":
+                maxNum = 50;
+                operations = ['+', '-', '*', '/'];
+                break;
+            case "hard":
+                maxNum = 100;
+                operations = ['+', '-', '*', '/', '^'];
+                break;
+            default:
+                maxNum = 20;
+                operations = ['+', '-'];
+        }
+
+        // Keep generating until we get a proper problem
+        do {
+            // Choose random operation
+            operation = operations[Math.floor(Math.random() * operations.length)];
+
+            // Generate numbers based on operation
+            switch(operation) {
+                case '+':
+                    num1 = Math.floor(Math.random() * maxNum) + 1;
+                    num2 = Math.floor(Math.random() * maxNum) + 1;
+                    answer = num1 + num2;
+                    problem = `${num1} + ${num2} = ?`;
+                    break;
+                case '-':
+                    num1 = Math.floor(Math.random() * maxNum) + 1;
+                    num2 = Math.floor(Math.random() * num1) + 1; // Ensure positive result
+                    answer = num1 - num2;
+                    problem = `${num1} - ${num2} = ?`;
+                    break;
+                case '*':
+                    // Keep multiplication manageable
+                    num1 = Math.floor(Math.random() * (maxNum / 10)) + 1;
+                    num2 = Math.floor(Math.random() * 10) + 1;
+                    answer = num1 * num2;
+                    problem = `${num1} × ${num2} = ?`;
+                    break;
+                case '/':
+                    // Ensure clean division (no remainders)
+                    num2 = Math.floor(Math.random() * 10) + 1;
+                    answer = Math.floor(Math.random() * 10) + 1;
+                    num1 = num2 * answer;
+                    problem = `${num1} ÷ ${num2} = ?`;
+                    break;
+                case '^':
+                    // Simple powers
+                    num1 = Math.floor(Math.random() * 10) + 1;
+                    num2 = Math.floor(Math.random() * 3) + 1; // Keep exponent small (1-3)
+                    answer = Math.pow(num1, num2);
+                    problem = `${num1}<sup>${num2}</sup> = ?`;
+                    break;
+            }
+
+            // Ensure problem is within difficulty range
+            if (answer > maxNum * 2) {
+                continue;
+            }
+
+        } while (problems.includes(problem));
+
+        // Save problem
+        problems.push(problem);
+
+        // Update UI
+        problemElement.innerHTML = problem;
+        answerInput.value = '';
+        answerInput.focus();
+
+        // Store current problem data
+        currentProblem = {
+            problem: problem,
+            answer: answer,
+            startTime: new Date()
+        };
+    }
+
+    // Check user's answer
+    function checkAnswer() {
+        const userAnswer = parseFloat(answerInput.value);
+
+        // Skip if no answer
+        if (isNaN(userAnswer)) {
+            return;
+        }
+
+        // Calculate time taken
+        const endTime = new Date();
+        const timeTaken = (endTime - currentProblem.startTime) / 1000;
+        totalTime += timeTaken;
+        problemsSolved++;
+
+        // Check answer
+        const isCorrect = userAnswer === currentProblem.answer;
+
+        if (isCorrect) {
+            // Update score and streak
+            let pointsEarned = 10;
+
+            // Speed bonus (faster = more points)
+            if (timeTaken < 3) {
+                pointsEarned += 5;
+            } else if (timeTaken < 5) {
+                pointsEarned += 3;
+            }
+
+            // Difficulty bonus
+            if (difficulty === "medium") {
+                pointsEarned += 5;
+            } else if (difficulty === "hard") {
+                pointsEarned += 10;
+            }
+
+            // Streak bonus
+            streak++;
+            if (streak > bestStreak) {
+                bestStreak = streak;
+            }
+
+            if (streak >= 3) {
+                const streakBonus = Math.floor(streak / 3) * 5;
+                pointsEarned += streakBonus;
+
+                // Show streak bonus animation
+                const streakBonusElement = document.createElement('div');
+                streakBonusElement.classList.add('streak-bonus');
+                streakBonusElement.textContent = `+${streakBonus} STREAK!`;
+                streakBonusElement.style.left = `${Math.random() * 80 + 10}%`;
+                streakBonusElement.style.top = `${Math.random() * 30 + 35}%`;
+
+                gameArea.appendChild(streakBonusElement);
+                setTimeout(() => {
+                    streakBonusElement.classList.add('float-up');
+                }, 10);
+
+                setTimeout(() => {
+                    gameArea.removeChild(streakBonusElement);
+                }, 1500);
+            }
+
+            // Update score
+            score += pointsEarned;
+            correctAnswers++;
+
+            // Show feedback
+            feedbackElement.textContent = `+${pointsEarned} points!`;
+            feedbackElement.className = 'feedback correct';
+
+        } else {
+            // Reset streak on wrong answer
+            streak = 0;
+            wrongAnswers++;
+
+            // Show feedback
+            feedbackElement.textContent = `Correct answer: ${currentProblem.answer}`;
+            feedbackElement.className = 'feedback wrong';
+        }
+
+        // Update UI
+        scoreElement.textContent = score;
+        streakElement.textContent = streak;
+
+        // Generate new problem after delay
+        setTimeout(function() {
+            feedbackElement.textContent = '';
+            generateProblem();
+        }, isCorrect ? 500 : 1500);
+    }
+
+    // Initialize game when page loads
+    window.onload = init;
+</script>
+</body>
+</html>
