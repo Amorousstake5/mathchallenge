@@ -6,7 +6,7 @@
     <title>Math Challenge Game</title>
     <style>
         body {
-            font-family: 'Segoe UI', Roboto, 'Times New Roman', Verdana, sans-serif;
+            font-family: Georgia, Roboto, 'Times New Roman', Verdana, sans-serif;
             background-color: #f0f8ff;
             margin: 0;
             padding: 0;
@@ -460,16 +460,16 @@
 
         switch(difficulty) {
             case "easy":
-                maxNum = 20;
+                maxNum = 100;
                 operations = ['+', '-'];
                 break;
             case "medium":
-                maxNum = 50;
+                maxNum = 1000;
                 operations = ['+', '-', '*', '/'];
                 break;
             case "hard":
-                maxNum = 100;
-                operations = ['+', '-', '*', '/', '^'];
+                maxNum = 10000;
+                operations = ['+', '-', '*', '/', '^', '%'];
                 break;
             default:
                 maxNum = 20;
