@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Georgia, Roboto, 'Times New Roman', Verdana, sans-serif;
-            background-color: #f0f8ff;
+            background-color: #F5D493;
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,8 +18,8 @@
         }
 
         .game-container {
-            background-color: white;
-            border-radius: 12px;
+            background-color: #B9E141;
+            border-radius: 2pc;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             padding: 30px;
             width: 90%;
@@ -37,6 +37,7 @@
             justify-content: space-between;
             margin: 20px 0;
             font-size: 18px;
+            color: #9141E1;
         }
 
         .score-box {
@@ -156,10 +157,16 @@
 
         .game-area, .results-screen {
             display: none;
+
         }
 
         .results-content {
             margin-top: 20px;
+            background-color: #E14169;
+            padding: 10px;
+            border-radius: 2pc;
+            border: 2px solid white;
+
         }
 
         .progress-bar {
@@ -187,6 +194,7 @@
             width: 100%;
             margin-top: 20px;
             border-collapse: collapse;
+
         }
 
         th, td {
@@ -267,7 +275,7 @@
 
     <!-- Results Screen -->
     <div class="results-screen" id="resultsScreen">
-        <h1>Game Over!</h1>
+        <h1 style = "color: #E14141">Game Over!</h1>
         <div class="results-content">
             <h2>Your Results</h2>
             <div class="score-area">
