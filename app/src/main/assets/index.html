@@ -227,19 +227,20 @@
         <div class="difficulty-selection">
             <div class="difficulty-btn selected" data-difficulty="easy">
                 <h3>Easy</h3>
-                <p>Addition & Subtraction<br>Numbers 1-20</p>
+                <p>Addition & Subtraction<br>Numbers 1-100</p>
             </div>
             <div class="difficulty-btn" data-difficulty="medium">
                 <h3>Medium</h3>
-                <p>All Operations<br>Numbers 1-50</p>
+                <p>All Operations<br>Numbers 101-1000</p>
             </div>
             <div class="difficulty-btn" data-difficulty="hard">
                 <h3>Hard</h3>
-                <p>All Operations<br>Numbers 1-100</p>
+                <p>All Operations<br>Numbers 1001-10000</p>
             </div>
         </div>
 
         <button class="btn" id="startBtn">Start Game</button>
+        <button class="btn" onclick="window.location.href = 'about.html';">Open webpage</button>
     </div>
 
     <!-- Game Area -->
@@ -469,7 +470,7 @@
                 break;
             case "hard":
                 maxNum = 10000;
-                operations = ['+', '-', '*', '/', '^', '%'];
+                operations = ['+', '-', '*', '/', '^'];
                 break;
             default:
                 maxNum = 20;
@@ -516,6 +517,7 @@
                     answer = Math.pow(num1, num2);
                     problem = `${num1}<sup>${num2}</sup> = ?`;
                     break;
+
             }
 
             // Ensure problem is within difficulty range

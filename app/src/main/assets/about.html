@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credits & Licenses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            display: inline-block;
+        }
+
+        .developer-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+        }
+
+        .developer-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .developer-role {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .library-item {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .library-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .library-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .library-description {
+            color: #7f8c8d;
+            margin-bottom: 12px;
+        }
+
+        .library-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            background: #f8f9fa;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #495057;
+        }
+
+        .license-text {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #495057;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .library-details {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<button class="back-button" onclick="goBack()">← Back</button>
+
+<div class="container">
+    <div class="header">
+        <h1>Credits & Licenses</h1>
+        <p>Acknowledgments for libraries and frameworks used in this project</p>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <h2>👨‍💻 Developer</h2>
+            <div class="developer-info">
+                <div class="developer-name">Soumyajit Roy</div>
+                <div class="developer-role">Android Developer & Software Engineer</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Core Technologies</h2>
+
+            <div class="library-item">
+                <div class="library-name">Android WebView</div>
+                <div class="library-description">Native Android component for displaying web content</div>
+                <div class="library-details">
+                    <span class="detail-item">Google/Android</span>
+                    <span class="detail-item">Built-in Component</span>
+                    <span class="detail-item">API Level 1+</span>
+                </div>
+                <div class="license-text">Licensed under the Apache License, Version 2.0
+                    Copyright © Google Inc.
+
+                    Permission is hereby granted to use this software under the Apache 2.0 License terms.</div>
+            </div>
+
+            <div class="library-item">
+                <div class="library-name">AndroidX AppCompat</div>
+                <div class="library-description">Backwards-compatible versions of Android components</div>
+                <div class="library-details">
+                    <span class="detail-item">Google</span>
+                    <span class="detail-item">Version: Latest</span>
+                    <span class="detail-item">Support Library</span>
+                </div>
+                <div class="license-text">Licensed under the Apache License, Version 2.0
+                    Copyright © The Android Open Source Project
+
+                    Licensed under the Apache License, Version 2.0 (the "License");</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎨 UI & Design</h2>
+
+            <div class="library-item">
+                <div class="library-name">Material Design Components</div>
+                <div class="library-description">Google's design system for Android applications</div>
+                <div class="library-details">
+                    <span class="detail-item">Google</span>
+                    <span class="detail-item">Design System</span>
+                    <span class="detail-item">Material 3</span>
+                </div>
+                <div class="license-text">Licensed under the Apache License, Version 2.0
+                    Copyright © Google Inc.
+
+                    Material Design icons and guidelines are available under Apache 2.0.</div>
+            </div>
+
+            <div class="library-item">
+                <div class="library-name">CSS3 & HTML5</div>
+                <div class="library-description">Web standards for styling and markup</div>
+                <div class="library-details">
+                    <span class="detail-item">W3C</span>
+                    <span class="detail-item">Web Standards</span>
+                    <span class="detail-item">Open Standard</span>
+                </div>
+                <div class="license-text">Web standards are royalty-free and available for implementation
+                    Copyright © World Wide Web Consortium (W3C)
+
+                    These specifications are available under the W3C Software License.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚖️ License Information</h2>
+
+            <div class="library-item">
+                <div class="library-name">Apache License 2.0</div>
+                <div class="library-description">Most components in this project use the Apache 2.0 License</div>
+                <div class="license-text">Apache License, Version 2.0
+                    Copyright © 2024
+
+                    Licensed under the Apache License, Version 2.0 (the "License");
+                    you may not use this file except in compliance with the License.
+                    You may obtain a copy of the License at:
+
+                    http://www.apache.org/licenses/LICENSE-2.0
+
+                    Unless required by applicable law or agreed to in writing, software
+                    distributed under the License is distributed on an "AS IS" BASIS,
+                    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🙏 Special Thanks</h2>
+
+            <div class="library-item">
+                <div class="library-name">Open Source Community</div>
+                <div class="library-description">Thanks to all the developers who contribute to open source projects</div>
+                <div class="library-details">
+                    <span class="detail-item">Global Community</span>
+                    <span class="detail-item">Continuous Support</span>
+                </div>
+            </div>
+
+            <div class="library-item">
+                <div class="library-name">Stack Overflow & Documentation</div>
+                <div class="library-description">Invaluable resources for learning and problem-solving</div>
+                <div class="library-details">
+                    <span class="detail-item">Community Knowledge</span>
+                    <span class="detail-item">Learning Resource</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>This app was built with ❤️ using Android WebView technology</p>
+        <p>Last updated: <span id="currentDate"></span></p>
+    </div>
+</div>
+
+<script>
+    // Set current date
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
+
+    // Back button functionality
+    function goBack() {
+        // Try to go back in WebView history
+        if (typeof Android !== 'undefined' && Android.goBack) {
+            Android.goBack();
+        } else if (window.history && window.history.length > 1) {
+            window.history.back();
+        } else {
+            // Fallback: redirect to main page
+            window.location.href = 'index.html';
+        }
+    }
+
+    // Add smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Add touch feedback for mobile
+    document.querySelectorAll('.library-item').forEach(item => {
+        item.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+
+        item.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+</script>
+</body>
+</html>
